@@ -42,11 +42,10 @@ const run = async() => {
 }
 
 const populateDetails = async (element) => {
-    const query = element.url ? element.url : element.name.replace(/\s+/g, '-').toLowerCase()
-    const data = await request.get({uri: `https://www.pokemon.com/${query}`, rejectUnauthorized: false})
+    const data = await request.get({uri: `https://www.pokemon.com/${element.url}`, rejectUnauthorized: false})
     const $ = cheerio.load(data)
    
-    element.description = $('p.version-x').first().text().replace(/(\r\n\t|\n|\r\t)/gm, "").trim()
+    element.description = $('p.version-x').first().text().replace(/(\r\n\t|\n|\r\t)/gm, " ").trim()
 
     $('div.pokedex-pokemon-attributes.active div.dtm-type ul li a').each((i, elem) => {
         element.types.push($(elem).text())
